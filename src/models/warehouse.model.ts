@@ -1,10 +1,10 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document } from 'mongoose'
 
 export interface IWarehouse extends Document {
-    name: string;
+    name: string
     address: {
-        city: string;
-        street: string;
+        city: string
+        street: string
         postal_codes: number;
         state: string;
         country: string;
@@ -43,6 +43,6 @@ const warehouseSchema = new Schema({
         type: Date,
         default: null
     }
-}, { timestamps: true });
+}, { timestamps: true })
 
-export const Warehouse = model<IWarehouse>("Warehouse", warehouseSchema);
+export const Warehouse = model<IWarehouse>('Warehouse', warehouseSchema)

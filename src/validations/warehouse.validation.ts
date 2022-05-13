@@ -1,5 +1,5 @@
-import { celebrate } from "celebrate";
-import Joi from "joi";
+import { celebrate } from 'celebrate'
+import Joi from 'joi'
 
 class WarehouseValidation {
     public createWarehouseValidation () {
@@ -10,7 +10,7 @@ class WarehouseValidation {
                 postal_codes: Joi.number().required(),
                 name: Joi.number().required(),
             })
-        });
+        })
     }
     
     public getWareHousesValidation () {
@@ -20,7 +20,7 @@ class WarehouseValidation {
                 limit: Joi.string().optional(),
                 name: Joi.string().optional(),
             })
-        });
+        })
     }
 
     public getWareHouseValidation () {
@@ -28,8 +28,8 @@ class WarehouseValidation {
             params: Joi.object({
                 id: Joi.string().required()
             })
-        });
+        })
     }
 }
 
-export default new WarehouseValidation();
+export default new WarehouseValidation()

@@ -1,5 +1,5 @@
-import { celebrate } from "celebrate";
-import Joi from "joi";
+import { celebrate } from 'celebrate'
+import Joi from 'joi'
 
 class ItemsValidation {
     public createItemValidation () {
@@ -11,7 +11,7 @@ class ItemsValidation {
                 quantity: Joi.number().required(),
                 images: Joi.array().items(Joi.string()).optional()
             })
-        });
+        })
     }
     
     public getItemsValidation () {
@@ -21,7 +21,7 @@ class ItemsValidation {
                 limit: Joi.string().optional(),
                 name: Joi.string().optional(),
             })
-        });
+        })
     }
 
     public getItemValidation () {
@@ -29,7 +29,7 @@ class ItemsValidation {
             params: Joi.object({
                 id: Joi.string().required()
             })
-        });
+        })
     }
 
     public getItemInWarehouseValidation () {
@@ -37,7 +37,7 @@ class ItemsValidation {
             params: Joi.object({
                 warehouseid: Joi.string().required()
             })
-        });
+        })
     }
 
     public updateItemValidation () {
@@ -52,7 +52,7 @@ class ItemsValidation {
                 quantity: Joi.number().optional(),
                 images: Joi.array().items(Joi.string()).optional()
             })
-        });
+        })
     }
 
     public setWareHouseToItemValidation () {
@@ -61,7 +61,7 @@ class ItemsValidation {
                 id: Joi.string().required(),
                 warehouseid: Joi.string().required()
             })
-        });
+        })
     }
 
     public deleteItemValidation () {
@@ -69,8 +69,8 @@ class ItemsValidation {
             params: Joi.object({
                 id: Joi.string().required()
             })
-        });
+        })
     }
 }
 
-export default new ItemsValidation();
+export default new ItemsValidation()

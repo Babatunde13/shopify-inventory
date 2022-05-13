@@ -1,4 +1,4 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document } from 'mongoose'
 
 export interface IItem extends Document {
     name: string;
@@ -40,8 +40,8 @@ const itemSchema = new Schema({
     },
     warehouse: {
         type: Schema.Types.ObjectId,
-        ref: "Warehouse"
+        ref: 'Warehouse'
     }
-}, { timestamps: true });
+}, { timestamps: true })
 
-export const Item = model<IItem>("Item", itemSchema);
+export const Item = model<IItem>('Item', itemSchema)
