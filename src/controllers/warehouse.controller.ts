@@ -12,7 +12,7 @@ class WarehouseController {
         try {
             const { limit, page } = req.query as unknown as GetWarehouseQuery
             const lim = parseInt(limit as string) || 20
-            const skip = parseInt(page as string) * lim || 0
+            const skip = (parseInt(page as string) - 1) * lim || 0
             const warehouses = await Warehouse.find({ deletedAt: null }).skip(skip).limit(lim)
                 .sort({ createdAt: -1 })
                 .select('-deletedAt -__v')

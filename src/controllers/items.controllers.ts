@@ -13,7 +13,7 @@ class ItemsController {
         try {
             const { limit, page, name } = req.query as unknown as GetItemsQuery
             const lim = parseInt(limit as string) || 20
-            const skip = parseInt(page as string) * lim || 0
+            const skip = (parseInt(page as string) - 1) * lim || 0
             const filter = name ? { name: { $regex: name, $options: 'i' }, deletedAt: null } : { deletedAt: null }
             const items = await Item.find(filter).limit(lim).skip(skip)
                 .sort({ createdAt: -1 })
