@@ -12,15 +12,15 @@ class ItemsController {
     public async getItems(req: Request, res: Response) {
         try {
             const { limit, page, name } = req.query as unknown as GetItemsQuery
+            const lim = parseInt(limit as string) || 20
+            const skip = parseInt(page as string) * lim || 0
             const filter = name ? { name: { $regex: name, $options: 'i' }, deletedAt: null } : { deletedAt: null }
-            const items = await Item.find(filter)
-                .limit(parseInt(limit) || 20)
-                .skip((parseInt(page) || 1) - 1)
+            const items = await Item.find(filter).limit(lim).skip(skip)
                 .sort({ createdAt: -1 })
                 .populate('warehouse', '-deletedAt -__v')
                 .select('-deletedAt -__v')
             const totalDocuments = await Item.countDocuments(filter)
-            const hasNextPage = totalDocuments > ((parseInt(page) || 1) * parseInt(limit) || 20)
+            const hasNextPage = totalDocuments > (skip + lim)
             res.status(200).json({
                 data: {
                     edges: items,

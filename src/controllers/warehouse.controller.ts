@@ -11,13 +11,13 @@ class WarehouseController {
     public async getWarehouses(req: Request, res: Response) {
         try {
             const { limit, page } = req.query as unknown as GetWarehouseQuery
-            const warehouses = await Warehouse.find({ deletedAt: null })
-                .limit(parseInt(limit) || 20)
-                .skip((parseInt(page) || 1) - 1)
+            const lim = parseInt(limit as string) || 20
+            const skip = parseInt(page as string) * lim || 0
+            const warehouses = await Warehouse.find({ deletedAt: null }).skip(skip).limit(lim)
                 .sort({ createdAt: -1 })
                 .select('-deletedAt -__v')
             const totalDocuments = await Warehouse.countDocuments({ deletedAt: null })
-            const hasNextPage = totalDocuments > ((parseInt(page) || 1) * parseInt(limit) || 20)
+            const hasNextPage = totalDocuments > (skip + lim)
             res.status(200).json({
                 data: {
                     edges: warehouses,
