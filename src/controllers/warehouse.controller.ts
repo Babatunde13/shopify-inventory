@@ -17,13 +17,14 @@ class WarehouseController {
                 .sort({ createdAt: -1 })
                 .select('-deletedAt -__v')
             const totalDocuments = await Warehouse.countDocuments({ deletedAt: null })
+            const hasNextPage = totalDocuments > ((parseInt(page) || 1) * parseInt(limit) || 20)
             res.status(200).json({
                 data: {
                     edges: warehouses,
                     meta: {
                         page: parseInt(page) || 1,
                         limit: parseInt(limit) || 20,
-                        hasNexPage: totalDocuments > (parseInt(page) || 1) * parseInt(limit) || 20,
+                        hasNextPage,
                         hasPreviousPage: parseInt(page) > 1,
                         totalDocuments
                     }

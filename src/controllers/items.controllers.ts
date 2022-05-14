@@ -20,13 +20,14 @@ class ItemsController {
                 .populate('warehouse', '-deletedAt -__v')
                 .select('-deletedAt -__v')
             const totalDocuments = await Item.countDocuments(filter)
+            const hasNextPage = totalDocuments > ((parseInt(page) || 1) * parseInt(limit) || 20)
             res.status(200).json({
                 data: {
                     edges: items,
                     meta: {
                         page: parseInt(page) || 1,
                         limit: parseInt(limit) || 20,
-                        hasNexPage: totalDocuments > (parseInt(page) || 1) * parseInt(limit) || 20,
+                        hasNextPage,
                         hasPreviousPage: parseInt(page) > 1,
                         totalDocuments
                     }
