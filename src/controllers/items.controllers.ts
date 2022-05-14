@@ -15,7 +15,7 @@ class ItemsController {
             const filter = name ? { name: { $regex: name, $options: 'i' }, deletedAt: null } : { deletedAt: null }
             const items = await Item.find(filter)
                 .limit(parseInt(limit) || 20)
-                .skip(parseInt(page) || 1)
+                .skip((parseInt(page) || 1) - 1)
                 .sort({ createdAt: -1 })
                 .populate('warehouse', '-deletedAt -__v')
                 .select('-deletedAt -__v')
@@ -26,7 +26,7 @@ class ItemsController {
                     meta: {
                         page: parseInt(page) || 1,
                         limit: parseInt(limit) || 20,
-                        hasNexPage: totalDocuments > (parseInt(page) || 1) * items.length,
+                        hasNexPage: totalDocuments > (parseInt(page) || 1) * parseInt(limit) || 20,
                         hasPreviousPage: parseInt(page) > 1,
                         totalDocuments
                     }

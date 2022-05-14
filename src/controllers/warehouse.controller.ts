@@ -13,7 +13,7 @@ class WarehouseController {
             const { limit, page } = req.query as unknown as GetWarehouseQuery
             const warehouses = await Warehouse.find({ deletedAt: null })
                 .limit(parseInt(limit) || 20)
-                .skip(parseInt(page) || 1)
+                .skip((parseInt(page) || 1) - 1)
                 .sort({ createdAt: -1 })
                 .select('-deletedAt -__v')
             const totalDocuments = await Warehouse.countDocuments({ deletedAt: null })
@@ -23,7 +23,7 @@ class WarehouseController {
                     meta: {
                         page: parseInt(page) || 1,
                         limit: parseInt(limit) || 20,
-                        hasNexPage: totalDocuments > (parseInt(page) || 1) * warehouses.length,
+                        hasNexPage: totalDocuments > (parseInt(page) || 1) * parseInt(limit) || 20,
                         hasPreviousPage: parseInt(page) > 1,
                         totalDocuments
                     }
