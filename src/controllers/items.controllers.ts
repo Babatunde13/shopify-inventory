@@ -68,7 +68,8 @@ class ItemsController {
 
     public async createItem(req: Request, res: Response) {
         try {
-            const item = await Item.create(req.body)
+            const newItem = new Item(req.body)
+            const item = await newItem.save()
             const itemWithoutDeletedAt = item.toObject()
             delete itemWithoutDeletedAt.deletedAt
             delete itemWithoutDeletedAt.__v

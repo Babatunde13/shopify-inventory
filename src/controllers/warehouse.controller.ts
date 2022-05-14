@@ -63,7 +63,8 @@ class WarehouseController {
 
     public async createWarehouse(req: Request, res: Response) {
         try {
-            const warehouse = await Warehouse.create(req.body)
+            const newWarehouse = new Warehouse(req.body)
+            const warehouse = await newWarehouse.save()
             const warehouseWithoutDeletedAt = warehouse.toObject()
             delete warehouseWithoutDeletedAt.deletedAt
             delete warehouseWithoutDeletedAt.__v
