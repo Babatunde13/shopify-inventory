@@ -5,10 +5,14 @@ class WarehouseValidation {
     public createWarehouseValidation () {
         return celebrate({
             body: Joi.object({
-                city: Joi.string().required(),
-                street: Joi.string().required(),
-                postal_codes: Joi.number().required(),
                 name: Joi.number().required(),
+                address: Joi.object({
+                    city: Joi.string().required(),
+                    street: Joi.string().optional(),
+                    postal_codes: Joi.number().optional(),
+                    state: Joi.string().required(),
+                    country: Joi.string().required()
+                }).required()
             })
         })
     }

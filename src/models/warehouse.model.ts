@@ -14,6 +14,7 @@ export interface IWarehouse extends Document {
 const warehouseSchema = new Schema({
     name: {
         type: String,
+        unique: true,
         required: true
     },
     address: {
