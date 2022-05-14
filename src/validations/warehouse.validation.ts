@@ -5,11 +5,11 @@ class WarehouseValidation {
     public createWarehouseValidation () {
         return celebrate({
             body: Joi.object({
-                name: Joi.number().required(),
+                name: Joi.string().required(),
                 address: Joi.object({
                     city: Joi.string().required(),
                     street: Joi.string().optional(),
-                    postal_codes: Joi.number().optional(),
+                    postal_codes: Joi.string().optional(),
                     state: Joi.string().required(),
                     country: Joi.string().required()
                 }).required()
