@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
   })
 })
 
-app.use('/items', itemsRouter)
+app.use('/inventories', itemsRouter)
 app.use('/warehouse', warehouseRouter)
 
 app.use('*', (err: any, req: Request, res: Response) => {

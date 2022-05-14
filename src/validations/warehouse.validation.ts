@@ -34,6 +34,14 @@ class WarehouseValidation {
             })
         })
     }
+
+    public getItemInWarehouseValidation () {
+        return celebrate({
+            params: Joi.object({
+                warehouseid: Joi.string().required()
+            })
+        })
+    }
 }
 
 export default new WarehouseValidation()

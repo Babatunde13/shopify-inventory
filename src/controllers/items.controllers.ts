@@ -10,29 +10,36 @@ export interface GetItemsQuery {
 
 class ItemsController {
     public async getItems(req: Request, res: Response) {
-        const { limit, page, name } = req.query as unknown as GetItemsQuery
-        const filter = name ? { name: { $regex: name, $options: 'i' }, deletedAt: null } : { deletedAt: null }
-        const items = await Item.find(filter)
-            .limit(parseInt(limit) || 20)
-            .skip(parseInt(page) || 1)
-            .sort({ createdAt: -1 })
-            .populate('warehouse', '-deletedAt -__v')
-            .select('-deletedAt -__v')
-        const totalDocuments = await Item.countDocuments(filter)
-        res.status(200).json({
-            data: {
-                edges: items,
-                meta: {
-                    page: parseInt(page) || 1,
-                    limit: parseInt(limit) || 20,
-                    hasNexPage: totalDocuments > (parseInt(page) || 1) * items.length,
-                    hasPreviousPage: parseInt(page) > 1,
-                    totalDocuments
-                }
-            },
-            status: true,
-            message: 'Items fetched successfully'
-        })
+        try {
+            const { limit, page, name } = req.query as unknown as GetItemsQuery
+            const filter = name ? { name: { $regex: name, $options: 'i' }, deletedAt: null } : { deletedAt: null }
+            const items = await Item.find(filter)
+                .limit(parseInt(limit) || 20)
+                .skip(parseInt(page) || 1)
+                .sort({ createdAt: -1 })
+                .populate('warehouse', '-deletedAt -__v')
+                .select('-deletedAt -__v')
+            const totalDocuments = await Item.countDocuments(filter)
+            res.status(200).json({
+                data: {
+                    edges: items,
+                    meta: {
+                        page: parseInt(page) || 1,
+                        limit: parseInt(limit) || 20,
+                        hasNexPage: totalDocuments > (parseInt(page) || 1) * items.length,
+                        hasPreviousPage: parseInt(page) > 1,
+                        totalDocuments
+                    }
+                },
+                status: true,
+                message: 'Items fetched successfully'
+            })
+        } catch (error) {
+            res.status(500).json({
+                status: false,
+                error: (error as Error).message
+            })
+        }
     }
 
     public async getItem(req: Request, res: Response) {
@@ -42,7 +49,7 @@ class ItemsController {
                 .select('-deletedAt -__v')
             if (!item) {
                 return res.status(404).json({
-                    message: 'Item not found',
+                    error: 'Item not found',
                     status: false
                 })
             }
@@ -54,7 +61,7 @@ class ItemsController {
         } catch (error) {
             return res.status(500).json({
                 status: false,
-                errors: (error as Error).message
+                error: (error as Error).message
             })
         }
     }
@@ -123,7 +130,7 @@ class ItemsController {
             const warehouse = await Warehouse.findOne({ _id: req.params.warehouseid, deletedAt: null })
             if (!warehouse) {
                 return res.status(404).json({
-                    message: 'Warehouse not found',
+                    error: 'Warehouse not found',
                     status: false
                 })
             }
@@ -132,7 +139,7 @@ class ItemsController {
                 .select('-deletedAt -__v')
             if (!item) {
                 return res.status(404).json({
-                    message: 'Item not found',
+                    error: 'Item not found',
                     status: false
                 })
             }
@@ -145,30 +152,6 @@ class ItemsController {
             return res.status(500).json({
                 error: (error as Error).message,
                 status: false
-            })
-        }
-    }
-
-    public async getItemsInWarehouse(req: Request, res: Response) {
-        try {
-            const item = await Item.find({ warehouse: req.params.warehouseid, deletedAt: null })
-                .select('-deletedAt -__v')
-                .populate('warehouse', '-deletedAt -__v')
-            if (!item) {
-                return res.status(404).json({
-                    message: 'No items found in this warehouse',
-                    status: false
-                })
-            }
-    
-            return res.status(200).json({
-                data: item,
-                status: true
-            })
-        } catch (error) {
-            return res.status(500).json({
-                status: false,
-                errors: (error as Error).message
             })
         }
     }

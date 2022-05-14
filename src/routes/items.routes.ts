@@ -10,6 +10,5 @@ itemsRouter.post('/', itemsValidation.createItemValidation(), itemsControllers.c
 itemsRouter.put('/:id', itemsValidation.updateItemValidation(), itemsControllers.updateItem)
 itemsRouter.delete('/:id', itemsValidation.deleteItemValidation(), itemsControllers.deleteItem)
 itemsRouter.post('/:id/warehouse/:warehouseid', itemsValidation.deleteItemValidation(), itemsControllers.setWareHouseToItem)
-itemsRouter.get('/warehouse/:warehouseid', itemsValidation.getItemInWarehouseValidation(), itemsControllers.getItemsInWarehouse)
 
 export default itemsRouter

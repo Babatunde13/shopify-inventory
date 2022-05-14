@@ -46,7 +46,6 @@ class ItemsValidation {
                 id: Joi.string().required()
             }),
             body: Joi.object({
-                name: Joi.string().optional(),
                 description: Joi.string().optional(),
                 price: Joi.number().optional(),
                 quantity: Joi.number().optional(),

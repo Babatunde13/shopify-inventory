@@ -7,5 +7,6 @@ const warehouseRouter = Router()
 warehouseRouter.get('/', wareHouseValidation.getWareHousesValidation(), warehouseController.getWarehouses)
 warehouseRouter.get('/:id', wareHouseValidation.getWareHouseValidation(), warehouseController.getWarehouse)
 warehouseRouter.post('/', wareHouseValidation.createWarehouseValidation(), warehouseController.createWarehouse)
+warehouseRouter.get('/:warehouseid/inventories', wareHouseValidation.getItemInWarehouseValidation(), warehouseController.getItemsInWarehouse)
 
 export default warehouseRouter
